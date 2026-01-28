@@ -77,32 +77,30 @@ public class App {
     private static void loadData(String filename) throws Exception {
 
 
-    BufferedReader br = new BufferedReader(new FileReader(filename));
-    String line;
-    br.readLine();
+        BufferedReader br = new BufferedReader(new FileReader(filename));
+        String line;
+        br.readLine();
 
-    while ((line = br.readLine()) != null) {
-        String[] parts = line.split(",");
+        while ((line = br.readLine()) != null) {
+            String[] parts = line.split(",");
 
-        String state = parts[0].trim().replace("\"", "");
-        String county = parts[1].trim().replace("\"", "");
+            String state = parts[0].trim().replace("\"", "");
+            String county = parts[1].trim().replace("\"", "");
 
-        int trumpVotes = Integer.parseInt(parts[3]);
-        int clintonVotes = Integer.parseInt(parts[4]);
+            int trumpVotes = Integer.parseInt(parts[3]);
+            int clintonVotes = Integer.parseInt(parts[4]);
 
-        int sumofvote = trumpVotes + clintonVotes; 
+            County c = new County(state, county, trumpVotes, clintonVotes); 
 
-        County c = new County(state, county, trumpVotes, clintonVotes); 
+            data.putIfAbsent(state, new HashMap<>()); 
+            data.get(state).put(county, c);
 
-        data.putIfAbsent(state, new HashMap<>()); 
-        data.get(state).put(county, c);
+            nationalClintonVotes += clintonVotes;
+            nationalTrumpVotes += trumpVotes;   
+            nationalCountyCount += 1;
+        }
 
-        nationalClintonVotes += clintonVotes;
-        nationalTrumpVotes += trumpVotes;   
-        nationalCountyCount += 1;
-    }
-
-    br.close();
+        br.close();
 }
 
 private static void showMenu(County c, Scanner sc){
@@ -134,49 +132,51 @@ private static void showMenu(County c, Scanner sc){
 
     }
 
-    private static void compareTrumpToNationalAverage(County c) {
+        private static void compareTrumpToNationalAverage(County c) {
 
-    double nationalAverage =  nationalTrumpVotes / nationalCountyCount;
-    double percentDifference = ((c.trumpVotes - nationalAverage) / nationalAverage) * 100;
+            double nationalAverage =  nationalTrumpVotes / nationalCountyCount;
+            double percentDifference = ((c.trumpVotes - nationalAverage) / nationalAverage) * 100;
 
-    System.out.println("\nTrump Vote Comparison");
-    System.out.println("County Trump Votes: " + c.trumpVotes);
-    System.out.println("National County Average: " + (int) nationalAverage);
+            System.out.println("\nTrump Vote Comparison");
+            System.out.println("County Trump Votes: " + c.trumpVotes);
+            System.out.println("National County Average: " + (int) nationalAverage);
 
-    if (percentDifference > 0) {
-        System.out.println("This county voted " + percentDifference + "% ABOVE the national county average for Trump.");
-    } else if (percentDifference < 0) {
-        System.out.println("This county voted " + Math.abs(percentDifference) + "% BELOW the national county average for Trump.");
-    } else {
-        System.out.println("This county matches the national county average for Trump.");
-    }
-}   
+            if (percentDifference > 0) {
+                System.out.println("This county voted " + percentDifference + "% ABOVE the national county average for Trump.");
+            } else if (percentDifference < 0) {
+                System.out.println("This county voted " + Math.abs(percentDifference) + "% BELOW the national county average for Trump.");
+            } else {
+                System.out.println("This county matches the national county average for Trump.");
+            }
+        }      
 
 
 
-private static void printTrumpToClintonRatio(County c) {
-    System.out.println("\nTrump-to-Clinton Vote Ratio in " + c.county + ", " + c.state);
+        private static void printTrumpToClintonRatio(County c) {
 
-    if (c.clintonVotes == 0 && c.trumpVotes == 0) {
-        System.out.println("No votes recorded in this county.");
-        return;
-    }
+            System.out.println("\nTrump-to-Clinton Vote Ratio in " + c.county + ", " + c.state);
 
-    int trump = c.trumpVotes;
-    int clinton = c.clintonVotes;
+            if (c.clintonVotes == 0 && c.trumpVotes == 0) {
+                System.out.println("No votes recorded in this county.");
+                return;
+            }
 
-    double ratio;
-    if (trump < clinton) {
-        ratio = (double) clinton / trump;
-        System.out.println("For every 1 Trump voter, there were " + Math.round(ratio) + " Clinton voter(s).");
-    } else {
-        ratio = (double) trump / clinton;
-        System.out.println("For every 1 Clinton voter, there were " + Math.round(ratio) + " Trump voter(s).");
-    }
-    
-    double basicRatioOfVotes = (double) trump / clinton;
-    System.out.println("Trump-to-Clinton ratio: " + basicRatioOfVotes);
-}
+            int trump = c.trumpVotes;
+            int clinton = c.clintonVotes;
+
+            double ratio;
+            if (trump < clinton) {
+                ratio = (double) clinton / trump;
+                System.out.println("For every 1 Trump voter, there were " + Math.round(ratio) + " Clinton voter(s).");
+            } else {
+                ratio = (double) trump / clinton;
+                System.out.println("For every 1 Clinton voter, there were " + Math.round(ratio) + " Trump voter(s).");
+            }
+            
+            double basicRatioOfVotes = (double) trump / clinton;
+            System.out.println("Trump-to-Clinton ratio: " + basicRatioOfVotes);
+
+        }
 
 
 
