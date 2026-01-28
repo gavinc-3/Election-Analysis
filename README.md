@@ -2,6 +2,13 @@
 
 I am a tool to help collect data from the 2016 Presidential Election between Donald Trump and Hilary Clinton. 
 
+Ms. Feng's G Period Intermediate CS Class 
+
+For this project, I utilized data found from MIT Lab and implemented hashmaps to make the data more accessable for the user. There are a few problems and technical errors in the program: when calculating the results compared to the national average, it doesn't consider the fact that there are vast disparities in the amount of people per county which makes the function kinda useless. 
+I also utilized artificial intelligence (OpenAI, ChatGPT) help in figuring out how to use a nested hashmap. I found that this was a more efficient way to link each state to a county to its data. In the final project, AI was only used to help figure out logistics in implementing the nested hashmap. 
+
+
+
 
 ## Data:
 Collected from the MIT Lab. 
@@ -26,5 +33,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE." 
+
 
 
